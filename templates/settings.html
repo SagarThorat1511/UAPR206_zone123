@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Settings</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/styles1.css') }}">
+  <!-- <link rel="stylesheet" href="/static/styles.css"> -->
+</head>
+<body>
+  <header>
+    <h1>Settings Page</h1>
+  </header>
+
+  <main>
+    <form id="settingsForm">
+        <table border="1" cellpadding="10">
+            <thead>
+              <tr>
+                <th>Parameter</th>
+                <th>Value</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>IP Address</td>
+                <td><input type="text" name="ip_address" required></td>
+              </tr>
+              <tr>
+                <td>Port</td>
+                <td><input type="number" name="port" required></td>
+              </tr>
+              <tr>
+                <td>Update Interval (ms)</td>
+                <td><input type="number" name="interval" required></td>
+              </tr>
+              <tr>
+                <td>Chart Limit - SPC</td>
+                <td><input type="number" name="limit_spc" required></td>
+              </tr>
+              <tr>
+                <td>Chart Limit - R</td>
+                <td><input type="number" name="limit_r" required></td>
+              </tr>
+              <tr>
+                <td>Chart Limit - X</td>
+                <td><input type="number" name="limit_x" required></td>
+              </tr>
+              <tr>
+                <td>Chart Limit - Histogram</td>
+                <td><input type="number" name="limit_histogram" required></td>
+              </tr>
+              <tr>
+                <td>Chart Limit - Normal</td>
+                <td><input type="number" name="limit_normal" required></td>
+              </tr>
+              <tr>
+                <td>SPC UCL (Upper Control Limit)</td>
+                <td><input type="number" name="spc_ucl" step="0.01"></td>
+              </tr>
+              <tr>
+                <td>SPC LCL (Lower Control Limit)</td>
+                <td><input type="number" name="spc_lcl" step="0.01"></td>
+              </tr>
+              <tr>
+                <td>Histogram Bin Size</td>
+                <td><input type="number" name="histogram_bins" required></td>
+              </tr>
+              <tr>
+                <td>Normal Distribution Mean</td>
+                <td><input type="number" name="normal_mean" step="0.01" required></td>
+              </tr>
+              <tr>
+                <td>Normal Distribution Std Dev</td>
+                <td><input type="number" name="normal_std" step="0.01" required></td>
+              </tr>
+            </tbody>
+          </table>
+          
+
+      <div class="buttons" style="margin-top: 20px;">
+        <button type="submit">✅ Save Settings</button>
+        <button type="button" onclick="window.location.href='/sidebar'">🏠 Back to Home</button>
+      </div>
+    </form>
+  </main>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      // Load current settings from server
+      fetch("/api/settings")
+        .then(res => res.json())
+        .then(data => {
+          for (const key in data) {
+            const input = document.querySelector(`[name="${key}"]`);
+            if (input) input.value = data[key];
+          }
+        });
+    
+      // Handle form submission
+      document.getElementById("settingsForm").addEventListener("submit", (e) => {
+        e.preventDefault();
+        const formData = new FormData(e.target);
+        const settings = {};
+        formData.forEach((value, key) => {
+          settings[key] = isNaN(value) ? value : Number(value);  // Convert to number if applicable
+        });
+    
+        fetch("/api/settings", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(settings)
+        })
+        .then(res => res.json())
+        .then(res => {
+          alert("✅ Settings saved successfully!");
+          window.location.href = "/settings"; // Redirect to home
+        })
+        .catch(err => alert("❌ Failed to save settings!"));
+      });
+    });
+    </script>
+    
+</body>
+</html>

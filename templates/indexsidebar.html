@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Industrial Dashboard</title>
+  <link rel="icon" href="{{ url_for('static', filename='images/logo.jpg') }}" type="image/x-icon">
+  <!-- <link rel="stylesheet" href="../static/css/styles.css" /> -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/styles1.css') }}">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+</head>
+<body>
+  <header>
+    <div class="logo"></div>
+    <div id="title">Project Of Zone A and Station 1</div>
+    <!-- <div id="zone-display">Zone: A</div> -->
+    <!-- <div id="station-display">Station: 1</div> -->
+    <div id="datetime" style="visibility:none;"></div>
+    <div class="plcstatus" style="display:none;">
+      <div id="plc-status1">PLC 1: <span class="status-dot disconnected"></span></div>
+      <div id="plc-status2">PLC 2: <span class="status-dot disconnected"></span></div>
+      <div id="plc-status3">PLC 3: <span class="status-dot disconnected"></span></div>
+    </div>
+  </header>
+  <div class="main-container">
+    <!-- Sidebar Toggle Button -->
+    <div class="sidebar" id="sidebar">
+      <div class="filter-section">
+        <h3>Filter By Station</h3>
+        <h2>Select Zone and Station</h2>
+        <!-- Zone Dropdown -->
+        <label for="zoneSelect">Zone:</label>
+        <select id="zoneSelect" onchange="updateStations()">
+          <option value="" disabled selected>Select Zone</option>
+          <option value="Zone1" >Zone 1</option>
+          <option value="Zone2">Zone 2</option>
+          <option value="Zone3">Zone 3</option>
+          <option value="Zone4">Zone 4</option>
+        </select>
+
+        <!-- Station Dropdown -->
+        <label for="stationSelect">Station:</label>
+        <select id="stationSelect" onchange="fetchAndUpdateCharts()">
+          <option value="" disabled selected>Select Station</option>
+        </select>
+      
+        <label for="start-date">Start Date</label>
+        <input type="date" id="start-date" />
+    
+        <label for="end-date">End Date</label>
+        <input type="date" id="end-date" />
+    
+        <button onclick="exportToPDF()">📄 Export Report PDF</button>
+        <button onclick="exportAllToPDF()">📄 Export Detailed Report PDF</button>
+        <button onclick="exportAllToExcel()">📊 Export to Excel</button>
+        <button onclick="window.location.href='/settings'" class="settings-btn">⚙️ Settings</button>
+
+      </div>
+    </div>
+    <button class="sidebar-toggle" onclick="toggleSidebar()">☰</button>
+    <button class="live-status" onclick="golive()"> 🟢 Live</button>
+    <!-- <img src="../static/images/right.png" class="sidebar-toggle" onclick="toggleSidebar()" alt=""> -->
+
+        <section class="charts">
+          <div class="chart-gallery">
+            <!-- Top SPC chart -->
+            <div class="chart-container spc" id="spc-container">
+              <canvas id="spc-chart"></canvas>
+              <button class="maximize-btn" onclick="maximizeChart('spc')">🔍 Maximize</button>
+              <div class="datavalues">
+                <h1>Calculation</h1>
+                <p><strong>Mean (X̄):</strong> X̄ = (Σxi) / n = <span id="mean">{{ mean }}</span></p>
+                <p><strong>Standard Deviation (σ):</strong> σ = √(Σ(xi - X̄)² / n) = <span id="std_dev">{{ std_dev }}</span></p>
+                <p><strong>UCL:</strong> UCL = X̄ + 3σ = <span id="ucl">{{ ucl }}</span></p>
+                <p><strong>LCL:</strong> LCL = X̄ - 3σ = <span id="lcl">{{ lcl }}</span></p>
+              </div>
+              
+            </div>
+            <!-- Remaining 4 charts -->
+            <div class="chart-container rchart" id="rchart-container">
+              <canvas id="r-chart"></canvas>
+              <button class="maximize-btn" onclick="maximizeChart('rchart')">🔍 Maximize</button>
+            </div>
+            <div class="chart-container xchart" id="xchart-container">
+              <canvas id="x-chart"></canvas>
+              <button class="maximize-btn" onclick="maximizeChart('xchart')">🔍 Maximize</button>
+            </div>
+            <div class="chart-container histogram" id="histogram-container">
+              <canvas id="histogram-chart"></canvas>
+              <button class="maximize-btn" onclick="maximizeChart('histogram')">🔍 Maximize</button>
+            </div>
+            <div class="chart-container normalchart" id="normalchart-container">
+              <canvas id="normal-chart"></canvas>
+              <button class="maximize-btn" onclick="maximizeChart('normalchart')">🔍 Maximize</button>
+            </div>
+          </div>
+        </section>
+    </div>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <!-- <script src="../static/js/script1.js"></script> -->
+  <script src="{{ url_for('static', filename='js/script1.js') }}"></script>
+</body>
+</html>

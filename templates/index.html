@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Industrial Dashboard</title>
+  <link rel="icon" href="{{ url_for('static', filename='images/logo.jpg') }}" type="image/x-icon">
+  <link rel="stylesheet" href="../static/css/styles.css" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+
+</head>
+<body>
+  <header>
+    <div class="logo"></div>
+    <div id="title">Project Of Zone A and Station 1</div>
+    <!-- <div id="zone-display">Zone: A</div> -->
+    <!-- <div id="station-display">Station: 1</div> -->
+    <div id="datetime"></div>
+    <div id="plc-status">PLC: <span class="status-dot disconnected"></span></div>
+  </header>
+
+  <section class="filters">
+    <select id="zone-select"></select>
+    <select id="station-select"></select>
+    <input type="date" id="start-date" />
+    <input type="date" id="end-date" />
+    <button onclick="exportAllToPDF()">📄 Export to PDF</button>
+    <button onclick="exportAllToExcel()">📊 Export to Excel</button>
+  </section>
+
+  <section class="charts">
+   <div class="chart-gallery">
+  <!-- Top SPC chart -->
+  <div class="chart-container spc" id="spc-container">
+    <canvas id="spc-chart"></canvas>
+    <button class="maximize-btn" onclick="maximizeChart('spc')">🔍 Maximize</button>
+     <div class="datavalues">
+      <h1>Calculation</h1>
+      <h3>Lorem ipsum, dolor sit </h3>
+      <h3>Lorem ipsum, dolor sit .</h3>
+      <h3>Lorem ipsum, dolor sit .</h3>
+      <h3>Lorem ipsum, dolor sit </h3>
+    </div>
+  </div>
+
+  <!-- Remaining 4 charts -->
+  <div class="chart-container rchart" id="rchart-container">
+    <canvas id="r-chart"></canvas>
+    <button class="maximize-btn" onclick="maximizeChart('rchart')">🔍 Maximize</button>
+   
+  </div>
+  <div class="chart-container xchart" id="xchart-container">
+    <canvas id="x-chart"></canvas>
+    <button class="maximize-btn" onclick="maximizeChart('xchart')">🔍 Maximize</button>
+  </div>
+  <div class="chart-container histogram" id="histogram-container">
+    <canvas id="histogram-chart"></canvas>
+    <button class="maximize-btn" onclick="maximizeChart('histogram')">🔍 Maximize</button>
+  </div>
+  <div class="chart-container normalchart" id="normalchart-container">
+    <canvas id="normal-chart"></canvas>
+    <button class="maximize-btn" onclick="maximizeChart('normalchart')">🔍 Maximize</button>
+  </div>
+</div>
+
+  </section>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="../static/js/script.js"></script>
+  <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>

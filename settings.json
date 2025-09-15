@@ -1,0 +1,15 @@
+{
+    "ip_address": "192.168.0.30",
+    "port": 2052,
+    "interval": 1244235423513252,
+    "limit_spc": 12,
+    "limit_r": 22,
+    "limit_x": 111,
+    "limit_histogram": 32,
+    "limit_normal": 325,
+    "spc_ucl": 23,
+    "spc_lcl": 2253,
+    "histogram_bins": 32,
+    "normal_mean": 32,
+    "normal_std": 3
+}
