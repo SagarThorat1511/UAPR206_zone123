@@ -6,8 +6,10 @@
   <link rel="icon" href="{{ url_for('static', filename='images/logo.jpg') }}" type="image/x-icon">
   <!-- <link rel="stylesheet" href="../static/css/styles.css" /> -->
   <link rel="stylesheet" href="{{ url_for('static', filename='css/styles1.css') }}">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+  <script src="{{ url_for('static', filename='js/jspdf.umd.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/xlsx.full.min.js') }}"></script>
+
+
 </head>
 <body>
   <header>
@@ -31,17 +33,21 @@
         <!-- Zone Dropdown -->
         <label for="zoneSelect">Zone:</label>
         <select id="zoneSelect" onchange="updateStations()">
-          <option value="" disabled selected>Select Zone</option>
-          <option value="Zone1" >Zone 1</option>
+          <option value="" disabled >Select Zone</option>
+          <option value="Zone1" selected>Zone 1</option>
           <option value="Zone2">Zone 2</option>
           <option value="Zone3">Zone 3</option>
-          <option value="Zone4">Zone 4</option>
+<!--          <option value="Zone4">Zone 4</option>-->
         </select>
 
         <!-- Station Dropdown -->
         <label for="stationSelect">Station:</label>
         <select id="stationSelect" onchange="fetchAndUpdateCharts()">
-          <option value="" disabled selected>Select Station</option>
+          <option value="">Select Station</option>
+          <option value="Primer tightening gauging station" selected>Primer tightening gauging station</option>
+          <option value="Primer stabbing resistance check" >Primer stabbing resistance check</option>
+          <option value="Primer stabbing gauging station" >Primer stabbing gauging station</option>
+
         </select>
       
         <label for="start-date">Start Date</label>
@@ -67,7 +73,7 @@
             <div class="chart-container spc" id="spc-container">
               <canvas id="spc-chart"></canvas>
               <button class="maximize-btn" onclick="maximizeChart('spc')">🔍 Maximize</button>
-              <div class="datavalues">
+              <div class="datavalues" style="visibility:hidden;">
                 <h1>Calculation</h1>
                 <p><strong>Mean (X̄):</strong> X̄ = (Σxi) / n = <span id="mean">{{ mean }}</span></p>
                 <p><strong>Standard Deviation (σ):</strong> σ = √(Σ(xi - X̄)² / n) = <span id="std_dev">{{ std_dev }}</span></p>
@@ -96,8 +102,9 @@
           </div>
         </section>
     </div>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<!--  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>-->
   <!-- <script src="../static/js/script1.js"></script> -->
+  <script src="{{ url_for('static', filename='js/chart.js') }}"></script>
   <script src="{{ url_for('static', filename='js/script1.js') }}"></script>
 </body>
 </html>

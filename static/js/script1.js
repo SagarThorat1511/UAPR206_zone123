@@ -104,10 +104,14 @@ const spcChart = new Chart(document.getElementById('spc-chart'), {
 
     stationSelect.innerHTML = '<option value="" disabled selected>Select Station</option>';
 
-    stations.forEach(station => {
+    stations.forEach((station,index) => {
+        console.log(index);
       const option = document.createElement("option");
       option.value = station;
       option.textContent = station;
+      if(index === 0){
+          option.selected = true;
+      }
       stationSelect.appendChild(option);
     });
   }
@@ -121,7 +125,7 @@ const spcChart = new Chart(document.getElementById('spc-chart'), {
     if (isMaximized) {
       
       maximizebtn.innerHTML='🔍 Maximize';
-        document.querySelector(".datavalues").style="display:block;"
+        document.querySelector(".datavalues").style="visibility: hidden;";
       container.classList.remove('maximized');
       const existingTable = container.querySelector('.value-table');
       if (existingTable) existingTable.remove();
@@ -267,7 +271,7 @@ const spcChart = new Chart(document.getElementById('spc-chart'), {
     title.innerHTML=`Project Of ${zone} of ${stationSelect}`
 //    console.log("Selected Zone:", zone);
 //    console.log("Selected Station:", stationSelect);
-    
+
     const url = `/api/data?zone=${zone}&station=${stationSelect}&start_date=${startDate.value}&end_date=${endDate.value}`;
   
     fetch(url)
